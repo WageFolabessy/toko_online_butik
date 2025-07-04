@@ -90,6 +90,9 @@
 
                         <dt class="col-sm-4">Harga Normal</dt>
                         <dd class="col-sm-8">Rp {{ number_format($product->price, 0, ',', '.') }}</dd>
+                        
+                        <dt class="col-sm-4">Harga Diskon</dt>
+                        <dd class="col-sm-8">Rp {{ number_format($product->discount_price, 0, ',', '.') }}</dd>
 
                         @if ($product->discount_price > 0)
                             <dt class="col-sm-4">Harga Diskon</dt>

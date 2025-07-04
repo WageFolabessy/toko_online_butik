@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -54,7 +55,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-Route::get('/', function () {
-    return 'Halaman Depan Customer';
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 

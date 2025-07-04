@@ -1,58 +1,62 @@
 <footer class="bg-dark text-white pt-5 pb-4">
-    <div class="container text-center text-md-start">
-        <div class="row text-center text-md-start">
-
-            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 fw-bold text-warning">Butik Disel</h5>
-                <p>
-                    Toko fashion terdepan yang menyediakan koleksi pakaian berkualitas tinggi dengan desain terkini
-                    untuk menunjang gaya Anda.
-                </p>
+    <div class="container">
+        <div class="row">
+            {{-- Kolom 1: Tentang Butik --}}
+            <div class="col-md-4 mb-4">
+                <h5 class="fw-bold mb-3">BUTIK DISEL</h5>
+                <p class="text-white-50">Menyediakan fashion wanita terkini dengan kualitas terbaik dan harga terjangkau.
+                    Temukan gaya Anda bersama kami.</p>
+                <div class="mt-4">
+                    <a href="#" class="text-white me-3 fs-5"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-white me-3 fs-5"><i class="bi bi-tiktok"></i></a>
+                    <a href="#" class="text-white fs-5"><i class="bi bi-facebook"></i></a>
+                </div>
             </div>
 
-            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 fw-bold text-warning">Link Cepat</h5>
-                <p><a href="#" class="text-white" style="text-decoration: none;">Akun Saya</a></p>
-                <p><a href="#" class="text-white" style="text-decoration: none;">Keranjang</a></p>
-                <p><a href="#" class="text-white" style="text-decoration: none;">Produk</a></p>
-                <p><a href="#" class="text-white" style="text-decoration: none;">Bantuan</a></p>
+            {{-- Kolom 2: Jelajahi --}}
+            <div class="col-md-2 col-6 mb-4">
+                <h5 class="fw-bold mb-3">Jelajahi</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Home</a></li>
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Produk Terbaru</a>
+                    </li>
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Promo</a></li>
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Semua Produk</a>
+                    </li>
+                </ul>
             </div>
 
-            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 fw-bold text-warning">Kontak</h5>
-                <p><i class="bi bi-house-door-fill me-3"></i> Pontianak, Kalimantan Barat</p>
-                <p><i class="bi bi-envelope-fill me-3"></i> info@butikdisel.com</p>
-                <p><i class="bi bi-telephone-fill me-3"></i> +62 812 3456 7890</p>
+            {{-- Kolom 3: Bantuan --}}
+            <div class="col-md-3 col-6 mb-4">
+                <h5 class="fw-bold mb-3">Bantuan</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Cara Berbelanja</a>
+                    </li>
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Lacak Pesanan</a>
+                    </li>
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Kebijakan
+                            Privasi</a></li>
+                    <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Syarat &
+                            Ketentuan</a></li>
+                </ul>
+            </div>
+
+            {{-- Kolom 4: Kontak --}}
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold mb-3">Hubungi Kami</h5>
+                <p class="text-white-50 mb-2"><i class="bi bi-geo-alt-fill me-2"></i>Pontianak, Indonesia</p>
+                <p class="text-white-50 mb-2"><i class="bi bi-envelope-fill me-2"></i>kontak@butikdisel.com</p>
+                <p class="text-white-50 mb-2"><i class="bi bi-telephone-fill me-2"></i>+62 123 4567 890</p>
             </div>
         </div>
-
-        <hr class="mb-4">
-
-        <div class="row align-items-center">
-            <div class="col-md-7 col-lg-8">
-                <p> © {{ date('Y') }} Copyright:
-                    <a href="#" class="text-white" style="text-decoration: none;">
-                        <strong class="text-warning">ButikDisel.com</strong>
-                    </a>
-                </p>
+        <hr class="bg-white-50">
+        <div class="row pt-2">
+            <div class="col-md-6">
+                <p class="text-white-50 text-center text-md-start">&copy; {{ date('Y') }} Butik Disel. All Rights
+                    Reserved.</p>
             </div>
-            <div class="col-md-5 col-lg-4">
-                <div class="text-center text-md-end">
-                    <ul class="list-unstyled list-inline">
-                        <li class="list-inline-item">
-                            <a href="#" class="btn-floating btn-sm text-white fs-4"><i
-                                    class="bi bi-facebook"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="btn-floating btn-sm text-white fs-4"><i
-                                    class="bi bi-twitter-x"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="btn-floating btn-sm text-white fs-4"><i
-                                    class="bi bi-instagram"></i></a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-md-6 text-center text-md-end">
+                {{-- Bisa diisi logo payment gateway --}}
             </div>
         </div>
     </div>
