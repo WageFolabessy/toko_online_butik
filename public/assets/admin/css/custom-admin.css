@@ -1,0 +1,178 @@
+/* assets/admin/css/custom-admin.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+:root {
+    --bs-dark-rgb: 43, 48, 53; /* Nilai RGB dari #2b3035 */
+    --bs-primary-rgb: 60, 108, 213; /* Warna Primary yang lebih modern */
+    --bs-light-gray: #f8f9fa;
+    --bs-gray: #6c757d;
+    --bs-white: #fff;
+}
+
+body {
+    background-color: var(--bs-light-gray);
+    font-family: "Poppins", sans-serif;
+    color: #495057;
+}
+
+.wrapper {
+    display: flex;
+}
+
+/* =================================================
+   SIDEBAR
+==================================================== */
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background-color: #2b3035; /* Warna lebih soft dari pure black */
+    color: #adb5bd;
+    transition: margin-left 0.35s ease-in-out;
+    flex-shrink: 0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+.sidebar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--bs-white);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.sidebar-brand:hover {
+    color: #e9ecef;
+}
+
+.sidebar-nav {
+    padding: 1rem 0;
+    list-style: none;
+}
+
+.sidebar-item {
+    padding: 0 1rem;
+}
+
+.sidebar-link {
+    display: flex; /* Menggunakan flexbox untuk alignment */
+    align-items: center;
+    padding: 0.85rem 1rem;
+    color: #adb5bd;
+    text-decoration: none;
+    border-radius: 0.375rem; /* border-radius lebih modern */
+    transition: background-color 0.2s, color 0.2s;
+    margin-bottom: 0.25rem;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--bs-white);
+}
+
+/* Active state yang lebih menonjol */
+.sidebar-link.active {
+    background-color: rgb(var(--bs-primary-rgb));
+    color: var(--bs-white);
+    font-weight: 600;
+}
+
+.sidebar-link i {
+    margin-right: 1rem;
+    font-size: 1.1rem;
+    width: 20px; /* Lebar tetap untuk ikon */
+    text-align: center;
+}
+
+.sidebar-header-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--bs-gray);
+    padding: 1.5rem 1.25rem 0.75rem;
+}
+
+/* =================================================
+   MAIN CONTENT & HEADER
+==================================================== */
+.main {
+    flex-grow: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.35s ease-in-out;
+    overflow: hidden;
+}
+
+.header {
+    background-color: var(--bs-white);
+    border-bottom: 1px solid #dee2e6;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+/* Menghapus background default navbar untuk integrasi yg lebih baik */
+.header .navbar {
+    background-color: var(--bs-white) !important;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 1.5rem 1.5rem; /* Padding konten lebih konsisten */
+}
+
+/* =================================================
+   FOOTER
+==================================================== */
+.footer {
+    border-top: 1px solid #dee2e6;
+    background-color: var(--bs-white);
+}
+
+/* =================================================
+   RESPONSIVE & SIDEBAR OVERLAY
+==================================================== */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1030;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.sidebar.active ~ .sidebar-overlay {
+    display: block;
+    opacity: 1;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1040;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0 !important;
+    }
+}
