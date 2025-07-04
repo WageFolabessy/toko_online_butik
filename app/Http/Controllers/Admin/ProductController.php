@@ -49,6 +49,7 @@ class ProductController extends Controller
                 'slug' => $slug,
                 'description' => $validated['description'],
                 'price' => $validated['price'],
+                'discount_price' => $validated['discount_price'] ?? 0,
                 'weight' => $validated['weight'],
             ]);
 
@@ -109,6 +110,7 @@ class ProductController extends Controller
                 'slug' => $slug,
                 'description' => $validated['description'],
                 'price' => $validated['price'],
+                'discount_price' => $validated['discount_price'] ?? 0,
                 'weight' => $validated['weight'],
             ]);
 

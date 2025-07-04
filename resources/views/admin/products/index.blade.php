@@ -27,6 +27,7 @@
                                     <th>Nama Produk</th>
                                     <th>Kategori</th>
                                     <th class="text-end">Harga</th>
+                                    <th class="text-end">Harga Setelah Diskon</th>
                                     <th class="text-center" style="width: 10%;">Stok</th>
                                     <th class="text-center" style="width: 15%;">Aksi</th>
                                 </tr>
@@ -42,6 +43,7 @@
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->category->name ?? 'Tanpa Kategori' }}</td>
                                         <td class="text-end">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                                        <td class="text-end">Rp {{ number_format($product->discount_price, 0, ',', '.') }}</td>
                                         <td class="text-center">{{ $product->variants->sum('stock') }}</td>
                                         <td class="text-center">
                                             <div class="dropdown">

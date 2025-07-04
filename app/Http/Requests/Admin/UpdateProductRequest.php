@@ -20,6 +20,7 @@ class UpdateProductRequest extends FormRequest
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|integer|min:0',
+            'discount_price' => 'nullable|integer|min:0|lte:price',
             'weight' => 'required|integer|min:1',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -40,6 +41,8 @@ class UpdateProductRequest extends FormRequest
             'category_id.exists' => 'Kategori yang dipilih tidak valid.',
             'price.required' => 'Harga produk wajib diisi.',
             'price.integer' => 'Harga harus berupa angka.',
+            'discount_price.integer' => 'Harga diskon harus berupa angka.',
+            'discount_price.lte' => 'Harga diskon tidak boleh lebih besar dari harga asli.',
             'weight.required' => 'Berat produk wajib diisi (dalam gram).',
             'weight.min' => 'Berat produk minimal adalah 1 gram.',
 
@@ -53,5 +56,4 @@ class UpdateProductRequest extends FormRequest
             'variants.stock.*.min' => 'Stok tidak boleh kurang dari 0.',
         ];
     }
-    
 }
