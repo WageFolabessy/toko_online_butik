@@ -19,22 +19,22 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategories" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Kategori
+                            Produk
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownCategories">
                             @foreach ($categories as $category)
-                                <li><a class="dropdown-item" href="#">{{ $category->name }}</a></li>
+                                <li><a class="dropdown-item"
+                                        href="{{ route('products.category', $category->slug) }}">{{ $category->name }}</a>
+                                </li>
                             @endforeach
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Lihat Semua Kategori</a></li>
+                            <li><a class="dropdown-item" href="{{ route('products.index') }}">Lihat Semua Produk</a>
+                            </li>
                         </ul>
                     </li>
                 @endif
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Semua Produk</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Tentang Kami</a>
                 </li>

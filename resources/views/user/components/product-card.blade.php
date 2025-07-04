@@ -1,11 +1,12 @@
 <div class="card product-card h-100 shadow-sm">
-    <a href="#">
+    <a href="{{ route('products.show', $product->slug) }}">
         <img src="{{ $product->images->first() ? asset('storage/' . $product->images->first()->path) : 'https://placehold.co/600x800/E1E1E1/424242?text=Butik+Disel' }}"
             class="card-img-top" alt="{{ $product->name }}">
     </a>
     <div class="card-body d-flex flex-column">
         <h5 class="card-title fs-6">
-            <a href="#" class="text-decoration-none text-dark stretched-link">{{ $product->name }}</a>
+            <a href="{{ route('products.show', $product->slug) }}"
+                class="text-decoration-none text-dark stretched-link">{{ $product->name }}</a>
         </h5>
 
         <div class="mt-auto">

@@ -36,7 +36,7 @@
     <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-messaging.js"></script>
     <script type="module" src="{{ asset('assets/user/js/custom-user.js') }}"></script>
 
-    @yield('script')
+    @stack('script')
 
 </body>
 
