@@ -27,4 +27,18 @@ class OrderController extends Controller
 
         return view('customer.profile.orders.show', compact('order'));
     }
+
+    public function confirmReceipt(Order $order)
+    {
+        Gate::authorize('update', $order);
+
+        if (!in_array($order->status, ['shipped', 'ready_for_pickup'])) {
+            return back()->with('error', 'Pesanan ini tidak dapat dikonfirmasi.');
+        }
+
+        $order->status = 'completed';
+        $order->save();
+
+        return redirect()->route('customer.profile.orders.show', $order)->with('success', 'Terima kasih telah mengkonfirmasi pesanan Anda!');
+    }
 }

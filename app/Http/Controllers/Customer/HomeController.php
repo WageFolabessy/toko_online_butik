@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Product;
+use App\Models\ProductReview;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -18,6 +19,11 @@ class HomeController extends Controller
             ->take(8)
             ->get();
 
-        return view('customer.home', compact('banners', 'products'));
+        $reviews = ProductReview::with(['user', 'product.images'])
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('customer.home', compact('banners', 'products', 'reviews'));
     }
 }

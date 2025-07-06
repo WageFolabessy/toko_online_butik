@@ -85,7 +85,7 @@ class CheckoutController extends Controller
     {
         $request->validate([
             'delivery_method' => 'required|in:delivery,pickup',
-            'address_id' => 'required_if:delivery_method,delivery|exists:addresses,id',
+            'address_id' => 'required_if:delivery_method,delivery|nullable|exists:addresses,id',
             'shipping_service' => 'required_if:delivery_method,delivery|string',
         ]);
 

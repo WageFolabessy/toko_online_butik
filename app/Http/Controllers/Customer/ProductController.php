@@ -47,7 +47,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $product->load(['category', 'variants', 'images']);
+        $product->load(['category', 'variants', 'images', 'reviews.user']);
 
         $relatedProducts = Product::with('images')
             ->where('category_id', $product->category_id)

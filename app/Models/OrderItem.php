@@ -32,4 +32,9 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Variant::class);
     }
+
+    public function review()
+    {
+        return $this->hasOne(ProductReview::class);
+    }
 }

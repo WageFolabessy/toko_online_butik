@@ -2,6 +2,24 @@
 
 @section('title', $product->name)
 
+@section('css')
+    <style>
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgb(215, 204, 204);
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container py-5">
         <div class="row">
@@ -41,7 +59,6 @@
 
                 <p class="text-muted">{{ Str::limit($product->description, 150) }}</p>
 
-                {{-- Form untuk menambah ke keranjang --}}
                 <form id="add-to-cart-form">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -111,7 +128,38 @@
                         <p>{!! nl2br(e($product->description)) !!}</p>
                     </div>
                     <div class="tab-pane fade" id="reviews-content" role="tabpanel">
-                        <p>Ulasan untuk produk ini belum tersedia.</p>
+                        @forelse($product->reviews as $review)
+                            <div class="d-flex mb-4">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="user-avatar">
+                                        @php
+                                            $nameParts = explode(' ', $review->user->name);
+                                            $initials = strtoupper(
+                                                substr($nameParts[0], 0, 1) .
+                                                    (count($nameParts) > 1 ? substr(end($nameParts), 0, 1) : ''),
+                                            );
+                                        @endphp
+                                        {{ $initials }}
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="mt-0">{{ $review->user->name }}</h5>
+                                    <div class="text-warning mb-2">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                        @endfor
+                                    </div>
+                                    <p>{{ $review->review }}</p>
+                                    <small class="text-muted">Diulas pada
+                                        {{ $review->created_at->translatedFormat('d F Y') }}</small>
+                                </div>
+                            </div>
+                            @if (!$loop->last)
+                                <hr>
+                            @endif
+                        @empty
+                            <p>Ulasan untuk produk ini belum tersedia.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>

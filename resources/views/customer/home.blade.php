@@ -45,8 +45,55 @@
             </div>
             <div class="row mt-3">
                 <div class="col text-center">
-                    <a href="#" class="btn btn-outline-primary">Lihat Semua Produk</a>
+                    <a href="{{ route('customer.products.index') }}" class="btn btn-outline-primary">Lihat Semua Produk</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-4">
+                <div class="col">
+                    <h2 class="fw-bold">Apa Kata Mereka?</h2>
+                    <p class="text-muted">Ulasan tulus dari pelanggan setia kami.</p>
+                </div>
+            </div>
+            <div class="row">
+                @forelse($reviews as $review)
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <div class="text-warning mb-2">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <i class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                    @endfor
+                                </div>
+                                <blockquote class="blockquote">
+                                    <p class="mb-2 fst-italic">"{{ Str::limit($review->review, 100) }}"</p>
+                                </blockquote>
+                                <figcaption class="blockquote-footer mt-2">
+                                    {{ $review->user->name }}
+                                </figcaption>
+                                <hr>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="{{ route('customer.products.show', $review->product) }}">
+                                        <img src="{{ $review->product->images->first() ? asset('storage/products/' . $review->product->images->first()->path) : 'https://via.placeholder.com/50' }}"
+                                            alt="{{ $review->product->name }}" class="rounded me-2" width="40">
+                                    </a>
+                                    <a href="{{ route('customer.products.show', $review->product) }}"
+                                        class="text-decoration-none text-dark small">
+                                        {{ Str::limit($review->product->name, 25) }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col text-center">
+                        <p>Belum ada ulasan yang tersedia.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>

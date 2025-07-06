@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProfileController;
-
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Customer\AuthController as CustomerAuthController;
 use App\Http\Controllers\Customer\Auth\ForgotPasswordController;
 use App\Http\Controllers\Customer\Auth\ResetPasswordController;
@@ -56,6 +56,11 @@ Route::name('customer.')->group(function () {
 
             Route::get('/pesanan', [\App\Http\Controllers\Customer\OrderController::class, 'index'])->name('orders.index');
             Route::get('/pesanan/{order:order_number}', [\App\Http\Controllers\Customer\OrderController::class, 'show'])->name('orders.show');
+            Route::post('/pesanan/{order}/konfirmasi', [\App\Http\Controllers\Customer\OrderController::class, 'confirmReceipt'])->name('orders.confirm');
+
+            Route::post('/ulasan', [\App\Http\Controllers\Customer\ReviewController::class, 'store'])->name('ulasan.store');
+            Route::put('/ulasan/{review}', [\App\Http\Controllers\Customer\ReviewController::class, 'update'])->name('ulasan.update');
+            Route::delete('/ulasan/{review}', [\App\Http\Controllers\Customer\ReviewController::class, 'destroy'])->name('ulasan.destroy');
         });
 
         Route::prefix('checkout')->name('checkout.')->group(function () {
@@ -92,6 +97,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('/{product}', [AdminProductController::class, 'destroy'])->name('destroy');
         });
 
+        Route::prefix('pesanan')->name('orders.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('index');
+            Route::get('/{order}', [\App\Http\Controllers\Admin\OrderController::class, 'show'])->name('show');
+            Route::put('/{order}', [\App\Http\Controllers\Admin\OrderController::class, 'update'])->name('update');
+        });
+
+        Route::prefix('pelanggan')->name('customers.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('index');
+            Route::get('/{customer}', [\App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('show');
+        });
+
+        Route::prefix('ulasan-produk')->name('reviews.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\ProductReviewController::class, 'index'])->name('index');
+            Route::delete('/{review}', [\App\Http\Controllers\Admin\ProductReviewController::class, 'destroy'])->name('destroy');
+        });
+
         Route::prefix('pengguna-admin')->name('admins.')->group(function () {
             Route::get('/', [AdminUserController::class, 'index'])->name('index');
             Route::get('/tambah', [AdminUserController::class, 'create'])->name('create');
@@ -112,5 +133,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('/{banner}', [BannerController::class, 'update'])->name('update');
             Route::delete('/{banner}', [BannerController::class, 'destroy'])->name('destroy');
         });
+
+        Route::get('/laporan', [ReportController::class, 'index'])->name('reports.index');
     });
 });

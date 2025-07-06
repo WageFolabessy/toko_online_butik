@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="mb-3">
             <h3 class="fw-bold">Dashboard</h3>
-            <p class="text-muted">Ringkasan informasi toko Anda</p>
+            <p class="text-muted">Ringkasan informasi toko Anda hari ini</p>
         </div>
 
         <div class="row">
@@ -17,8 +17,8 @@
                             <i class="bi bi-receipt-cutoff"></i>
                         </div>
                         <div>
-                            <h5 class="card-title text-muted">Pesanan Baru</h5>
-                            <p class="card-text fs-4 fw-bold">12</p>
+                            <h5 class="card-title text-muted">Pesanan Hari Ini</h5>
+                            <p class="card-text fs-4 fw-bold">{{ $newOrdersCount }}</p>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                         </div>
                         <div>
                             <h5 class="card-title text-muted">Pendapatan Hari Ini</h5>
-                            <p class="card-text fs-4 fw-bold">Rp 1.250.000</p>
+                            <p class="card-text fs-4 fw-bold">Rp {{ number_format($todaysRevenue, 0, ',', '.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div>
                             <h5 class="card-title text-muted">Pelanggan Baru</h5>
-                            <p class="card-text fs-4 fw-bold">5</p>
+                            <p class="card-text fs-4 fw-bold">{{ $newCustomersCount }}</p>
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                         </div>
                         <div>
                             <h5 class="card-title text-muted">Total Produk</h5>
-                            <p class="card-text fs-4 fw-bold">78</p>
+                            <p class="card-text fs-4 fw-bold">{{ $totalProducts }}</p>
                         </div>
                     </div>
                 </div>
@@ -73,35 +73,35 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">ID Pesanan</th>
-                                <th scope="col">Pelanggan</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Tanggal</th>
+                                <th>No. Pesanan</th>
+                                <th>Pelanggan</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>#ORD-123</td>
-                                <td>Ahmad</td>
-                                <td>Rp 350.000</td>
-                                <td><span class="badge bg-success">Selesai</span></td>
-                                <td>04 Juli 2025</td>
-                            </tr>
-                            <tr>
-                                <td>#ORD-122</td>
-                                <td>Budi</td>
-                                <td>Rp 150.000</td>
-                                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                <td>04 Juli 2025</td>
-                            </tr>
-                            <tr>
-                                <td>#ORD-121</td>
-                                <td>Citra</td>
-                                <td>Rp 575.000</td>
-                                <td><span class="badge bg-primary">Diproses</span></td>
-                                <td>03 Juli 2025</td>
-                            </tr>
+                            @forelse ($recentOrders as $order)
+                                <tr>
+                                    <td>{{ $order->order_number }}</td>
+                                    <td>{{ $order->user->name }}</td>
+                                    <td>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
+                                    <td>
+                                        <span
+                                            class="badge {{ $order->status_badge_class }}">{{ $order->status_text }}</span>
+                                    </td>
+                                    <td>{{ $order->created_at->translatedFormat('d M Y, H:i') }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.orders.show', $order->id) }}"
+                                            class="btn btn-sm btn-info text-white">Detail</a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">Belum ada pesanan hari ini.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

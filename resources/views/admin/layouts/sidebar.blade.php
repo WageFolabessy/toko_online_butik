@@ -26,28 +26,18 @@
                     <i class="bi bi-box-seam-fill"></i> Produk
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+            <li class="sidebar-item {{ request()->is('admin/pesanan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.orders.index') }}" class="sidebar-link">
                     <i class="bi bi-receipt-cutoff"></i> Pesanan
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="bi bi-truck"></i> Pengiriman
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="bi bi-credit-card-fill"></i> Pembayaran
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+            <li class="sidebar-item {{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.customers.index') }}" class="sidebar-link">
                     <i class="bi bi-people-fill"></i> Pelanggan
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+            <li class="sidebar-item {{ request()->is('admin/ulasan-produk*') ? 'active' : '' }}">
+                <a href="{{ route('admin.reviews.index') }}" class="sidebar-link">
                     <i class="bi bi-star-fill"></i> Ulasan Produk
                 </a>
             </li>
@@ -63,6 +53,11 @@
             <li class="sidebar-item {{ request()->is('admin/pengguna-admin*') ? 'active' : '' }}">
                 <a href="{{ route('admin.admins.index') }}" class="sidebar-link">
                     <i class="bi bi-person-fill-gear"></i> Admin
+                </a>
+            </li>
+            <li class="sidebar-item {{ request()->is('admin/laporan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.reports.index') }}" class="sidebar-link">
+                    <i class="bi bi-file-earmark-bar-graph-fill"></i> Laporan
                 </a>
             </li>
         </ul>
