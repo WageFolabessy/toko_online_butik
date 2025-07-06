@@ -45,4 +45,30 @@ class Order extends Model
     {
         return $this->hasOne(Payment::class);
     }
+
+    public function getStatusTextAttribute(): string
+    {
+        return match ($this->status) {
+            'awaiting_payment' => 'Menunggu Pembayaran',
+            'pending' => 'Pesanan Diproses',
+            'processed' => 'Siap Dikirim',
+            'ready_for_pickup' => 'Siap Diambil',
+            'shipped' => 'Telah Dikirim',
+            'completed' => 'Selesai',
+            'cancelled' => 'Dibatalkan',
+            default => 'Status Tidak Diketahui',
+        };
+    }
+
+    public function getStatusBadgeClassAttribute(): string
+    {
+        return match ($this->status) {
+            'awaiting_payment' => 'bg-warning text-dark',
+            'pending', 'processed', 'ready_for_pickup' => 'bg-info text-dark',
+            'shipped' => 'bg-primary',
+            'completed' => 'bg-success',
+            'cancelled' => 'bg-danger',
+            default => 'bg-secondary',
+        };
+    }
 }

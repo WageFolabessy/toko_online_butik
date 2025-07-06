@@ -73,7 +73,11 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="{{ route('customer.profile.edit') }}">Profil Saya</a></li>
-                            <li><a class="dropdown-item" href="#">Pesanan Saya</a></li>
+                            <li><a href="{{ route('customer.profile.orders.index') }}"
+                                    class="dropdown-item {{ request()->routeIs('customer.profile.orders.*') ? 'active' : '' }}">
+                                    Riwayat Pesanan
+                                </a></li>
+
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

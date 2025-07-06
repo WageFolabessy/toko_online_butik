@@ -53,6 +53,9 @@ Route::name('customer.')->group(function () {
             Route::put('/', [\App\Http\Controllers\Customer\ProfileController::class, 'update'])->name('update');
 
             Route::resource('alamat', \App\Http\Controllers\Customer\AddressController::class)->except(['show']);
+
+            Route::get('/pesanan', [\App\Http\Controllers\Customer\OrderController::class, 'index'])->name('orders.index');
+            Route::get('/pesanan/{order:order_number}', [\App\Http\Controllers\Customer\OrderController::class, 'show'])->name('orders.show');
         });
 
         Route::prefix('checkout')->name('checkout.')->group(function () {

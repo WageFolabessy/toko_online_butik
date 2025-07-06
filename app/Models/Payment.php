@@ -27,4 +27,25 @@ class Payment extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function getStatusTextAttribute(): string
+    {
+        return match (strtolower($this->status)) {
+            'capture', 'settlement' => 'Berhasil',
+            'pending' => 'Menunggu Pembayaran',
+            'deny' => 'Ditolak',
+            'cancel', 'expire' => 'Gagal',
+            default => 'Status Tidak Diketahui',
+        };
+    }
+
+    public function getStatusBadgeClassAttribute(): string
+    {
+        return match (strtolower($this->status)) {
+            'capture', 'settlement' => 'bg-success',
+            'pending' => 'bg-warning text-dark',
+            'deny', 'cancel', 'expire' => 'bg-danger',
+            default => 'bg-secondary',
+        };
+    }
 }
