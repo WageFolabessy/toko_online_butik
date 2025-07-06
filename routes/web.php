@@ -54,31 +54,60 @@ Route::name('customer.')->group(function () {
 
             Route::resource('alamat', \App\Http\Controllers\Customer\AddressController::class)->except(['show']);
         });
+
+        Route::prefix('checkout')->name('checkout.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Customer\CheckoutController::class, 'index'])->name('index');
+            Route::post('/shipping-cost', [\App\Http\Controllers\Customer\CheckoutController::class, 'calculateShippingCost'])->name('shipping_cost');
+            Route::post('/place-order', [\App\Http\Controllers\Customer\CheckoutController::class, 'placeOrder'])->name('place_order');
+        });
     });
 });
 
-// == HALAMAN ADMIN ==
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/masuk', [AdminAuthController::class, 'showLoginForm'])->middleware('guest')->name('login.form');
+    Route::post('/masuk', [AdminAuthController::class, 'login'])->middleware('guest')->name('login.submit');
 
-    // Rute login admin
-    Route::middleware('guest')->group(function () {
-        Route::get('/masuk', [AdminAuthController::class, 'showLoginForm'])->name('login.form');
-        Route::post('/masuk', [AdminAuthController::class, 'login'])->name('login.submit');
-    });
-
-    // Rute panel admin
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::post('/keluar', [AdminAuthController::class, 'logout'])->name('logout');
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        // Manajemen Profil Admin
+        Route::prefix('kategori')->name('categories.')->group(function () {
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::get('/tambah', [CategoryController::class, 'create'])->name('create');
+            Route::post('/', [CategoryController::class, 'store'])->name('store');
+            Route::get('/{category}/ubah', [CategoryController::class, 'edit'])->name('edit');
+            Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
+            Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('produk')->name('products.')->group(function () {
+            Route::get('/', [AdminProductController::class, 'index'])->name('index');
+            Route::get('/tambah', [AdminProductController::class, 'create'])->name('create');
+            Route::post('/', [AdminProductController::class, 'store'])->name('store');
+            Route::get('/{product}/ubah', [AdminProductController::class, 'edit'])->name('edit');
+            Route::put('/{product}', [AdminProductController::class, 'update'])->name('update');
+            Route::delete('/{product}', [AdminProductController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('pengguna-admin')->name('admins.')->group(function () {
+            Route::get('/', [AdminUserController::class, 'index'])->name('index');
+            Route::get('/tambah', [AdminUserController::class, 'create'])->name('create');
+            Route::post('/', [AdminUserController::class, 'store'])->name('store');
+            Route::get('/{user}/ubah', [AdminUserController::class, 'edit'])->name('edit');
+            Route::put('/{user}', [AdminUserController::class, 'update'])->name('update');
+            Route::delete('/{user}', [AdminUserController::class, 'destroy'])->name('destroy');
+        });
+
         Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profil', [ProfileController::class, 'update'])->name('profile.update');
 
-        // Manajemen Toko (menggunakan Route::resource)
-        Route::resource('kategori', CategoryController::class)->except(['show'])->parameters(['kategori' => 'category']);
-        Route::resource('produk', AdminProductController::class)->except(['show'])->parameters(['produk' => 'product']);
-        Route::resource('pengguna-admin', AdminUserController::class)->except(['show'])->parameters(['pengguna-admin' => 'user']);
-        Route::resource('banner', BannerController::class)->except(['show']);
+        Route::prefix('banner')->name('banners.')->group(function () {
+            Route::get('/', [BannerController::class, 'index'])->name('index');
+            Route::get('/tambah', [BannerController::class, 'create'])->name('create');
+            Route::post('/', [BannerController::class, 'store'])->name('store');
+            Route::get('/{banner}/ubah', [BannerController::class, 'edit'])->name('edit');
+            Route::put('/{banner}', [BannerController::class, 'update'])->name('update');
+            Route::delete('/{banner}', [BannerController::class, 'destroy'])->name('destroy');
+        });
     });
 });

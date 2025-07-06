@@ -33,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
+        \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::except([
+            'api/midtrans/notification'
+        ]);
+
         Gate::policy(ShoppingCartItem::class, ShoppingCartItemPolicy::class);
         Gate::policy(Address::class, AddressPolicy::class);
 

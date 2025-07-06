@@ -16,6 +16,9 @@
     <link href="{{ asset('assets/user/css/custom-user.css') }}" rel="stylesheet" />
 
     @yield('css')
+
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
 </head>
 
 <body>

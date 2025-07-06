@@ -71,7 +71,7 @@
                                     <span id="total-amount">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                                 </div>
                                 <div class="d-grid mt-4">
-                                    <a href="#" class="btn btn-primary">Lanjut ke Checkout</a>
+                                    <a href="{{ route('customer.checkout.index') }}" class="btn btn-primary">Lanjut ke Checkout</a>
                                 </div>
                             </div>
                         </div>

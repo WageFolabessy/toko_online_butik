@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'rajaongkir' => [
+        'api_key' => env('RAJA_ONGKIR_API_KEY'),
+        'origin_postal_code' => env('POSTAL_CODE_ORIGIN'),
+    ],
+
 ];
