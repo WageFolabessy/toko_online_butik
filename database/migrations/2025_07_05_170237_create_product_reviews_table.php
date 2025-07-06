@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->foreignId('order_item_id')
-                ->after('product_id')
                 ->constrained('order_items')
                 ->onDelete('cascade');
 

@@ -46,11 +46,7 @@
     {{-- JS --}}
     <script src="{{ asset('assets/admin/vendor/jquery-3.7.0.min.js') }}"></script>
     <script src="{{ asset('assets/admin/vendor/bootstrap.bundle.min.js') }}"></script>
-    <script type="module" src="{{ asset('assets/user/js/custom-user.js') }}"></script>
-
-    {{-- Firebase --}}
-    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-messaging.js"></script>
+    {{-- <script type="module" src="{{ asset('assets/user/js/custom-user.js') }}"></script> --}}
 
     <script>
         function showAppToast(message, type = 'success') {
@@ -77,6 +73,80 @@
         }
     </script>
     @stack('script')
+
+    @auth
+        <script type="module">
+            import {
+                initializeApp
+            } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+            import {
+                getMessaging,
+                getToken,
+                onMessage
+            } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-messaging.js";
+
+            const firebaseConfig = {
+                apiKey: "{{ config('services.firebase.api_key') }}",
+                authDomain: "{{ config('services.firebase.auth_domain') }}",
+                projectId: "{{ config('services.firebase.project_id') }}",
+                storageBucket: "{{ config('services.firebase.storage_bucket') }}",
+                messagingSenderId: "{{ config('services.firebase.messaging_sender_id') }}",
+                appId: "{{ config('services.firebase.app_id') }}"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const messaging = getMessaging(app);
+
+            function requestPermissionAndGetToken() {
+                console.log('Requesting permission...');
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted.');
+
+                        // Dapatan token
+                        getToken(messaging, {
+                            vapidKey: '{{ config('services.firebase.vapid_key') }}'
+                        }).then((currentToken) => {
+                            if (currentToken) {
+                                console.log('FCM Token:', currentToken);
+                                sendTokenToServer(currentToken);
+                            } else {
+                                console.log('No registration token available.');
+                            }
+                        }).catch((err) => {
+                            console.log('An error occurred while retrieving token. ', err);
+                        });
+                    } else {
+                        console.log('Unable to get permission to notify.');
+                    }
+                });
+            }
+
+            function sendTokenToServer(token) {
+                $.ajax({
+                    url: "{{ route('customer.fcm.token.store') }}", 
+                    type: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        token: token
+                    },
+                    success: function(response) {
+                        console.log('Token stored successfully.');
+                    },
+                    error: function(err) {
+                        console.error('Error storing token.', err);
+                    }
+                });
+            }
+
+            requestPermissionAndGetToken();
+
+            onMessage(messaging, (payload) => {
+                console.log('Message received. ', payload);
+                showAppToast(payload.notification.body, 'info');
+            });
+        </script>
+    @endauth
 </body>
 
 </html>

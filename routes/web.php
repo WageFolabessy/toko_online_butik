@@ -68,6 +68,8 @@ Route::name('customer.')->group(function () {
             Route::post('/shipping-cost', [\App\Http\Controllers\Customer\CheckoutController::class, 'calculateShippingCost'])->name('shipping_cost');
             Route::post('/place-order', [\App\Http\Controllers\Customer\CheckoutController::class, 'placeOrder'])->name('place_order');
         });
+
+        Route::post('/fcm-token', [\App\Http\Controllers\Customer\DeviceTokenController::class, 'store'])->name('fcm.token.store');
     });
 });
 
