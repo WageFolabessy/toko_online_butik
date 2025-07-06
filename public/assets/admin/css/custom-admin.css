@@ -1,0 +1,167 @@
+/* Import Font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* Basic Reset & Font */
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: #f5f7fa;
+    color: #495057;
+}
+
+/* Wrapper & Layout */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+}
+
+/* Sidebar Styles */
+#sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: #0e2238;
+    transition: margin-left 0.35s ease-in-out;
+    z-index: 1050; /* Pastikan sidebar di atas konten lain */
+}
+
+#sidebar.collapsed {
+    margin-left: -260px;
+}
+
+.sidebar-logo {
+    padding: 1.15rem 1.5rem;
+    text-align: center;
+}
+
+.sidebar-logo a {
+    color: #e9ecef;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.sidebar-nav {
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-header {
+    color: #adb5bd;
+    padding: 1.5rem 1.5rem 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 0.9rem 1.5rem;
+    color: #adb5bd;
+    text-decoration: none;
+    position: relative;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.sidebar-link i {
+    margin-right: 0.75rem;
+    color: #6c757d;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #f8f9fa;
+}
+
+.sidebar-item.active > .sidebar-link,
+.sidebar-item.active > .sidebar-link:hover {
+    background-color: #0d6efd; /* Bootstrap primary color */
+    color: #fff;
+}
+
+.sidebar-item.active > .sidebar-link i {
+    color: #fff;
+}
+
+/* Header, Content, Footer */
+.main .content {
+    flex: 1;
+    padding: 1.5rem 2rem;
+}
+
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.footer {
+    padding: 1rem 0;
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+}
+
+/* === RESPONSIVE STYLES === */
+@media (max-width: 767.98px) {
+    /* Di layar kecil, sidebar menjadi overlay */
+    #sidebar {
+        position: absolute;
+        height: 100%;
+    }
+
+    /* Secara default di layar kecil, sidebar disembunyikan */
+    #sidebar.collapsed {
+        margin-left: -260px;
+    }
+
+    /* Overlay hanya muncul saat sidebar tidak collapsed */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.35s ease-in-out, visibility 0.35s ease-in-out;
+    }
+
+    #sidebar:not(.collapsed) + .sidebar-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.avatar-initials {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #0d6efd; /* Warna utama Bootstrap */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1; /* Pastikan teks vertikal center */
+}
+
+/* Sedikit penyesuaian untuk dropdown link */
+.dropdown-menu .dropdown-item {
+    display: flex;
+    align-items: center;
+}
