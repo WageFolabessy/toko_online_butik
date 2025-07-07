@@ -5,6 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Butik Disel - @yield('title')</title>
+    {{-- Google Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
     <meta name="author" content="Butik Disel" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -46,7 +52,6 @@
     {{-- JS --}}
     <script src="{{ asset('assets/admin/vendor/jquery-3.7.0.min.js') }}"></script>
     <script src="{{ asset('assets/admin/vendor/bootstrap.bundle.min.js') }}"></script>
-    {{-- <script type="module" src="{{ asset('assets/user/js/custom-user.js') }}"></script> --}}
 
     <script>
         function showAppToast(message, type = 'success') {
@@ -54,23 +59,36 @@
             const toastTitleEl = document.getElementById('toast-title');
             const toastBodyEl = document.getElementById('toast-body');
 
-            toastEl.classList.remove('bg-success-subtle', 'bg-danger-subtle');
-            toastTitleEl.classList.remove('text-success', 'text-danger');
+            toastEl.classList.remove('bg-success-subtle', 'bg-danger-subtle', 'bg-info-subtle');
+            toastTitleEl.classList.remove('text-success', 'text-danger', 'text-info');
 
             if (type === 'success') {
                 toastTitleEl.innerText = 'Berhasil!';
                 toastTitleEl.classList.add('text-success');
                 toastEl.classList.add('bg-success-subtle');
-            } else {
+            } else if (type === 'error') {
                 toastTitleEl.innerText = 'Terjadi Kesalahan';
                 toastTitleEl.classList.add('text-danger');
                 toastEl.classList.add('bg-danger-subtle');
+            } else {
+                toastTitleEl.innerText = 'Informasi';
+                toastTitleEl.classList.add('text-info');
+                toastEl.classList.add('bg-info-subtle');
             }
 
             toastBodyEl.innerText = message;
             const appToast = new bootstrap.Toast(toastEl);
             appToast.show();
         }
+
+        document.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-custom');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
     </script>
     @stack('script')
 
@@ -98,33 +116,24 @@
             const messaging = getMessaging(app);
 
             function requestPermissionAndGetToken() {
-                console.log('Requesting permission...');
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
-                        console.log('Notification permission granted.');
-
-                        // Dapatan token
                         getToken(messaging, {
                             vapidKey: '{{ config('services.firebase.vapid_key') }}'
                         }).then((currentToken) => {
                             if (currentToken) {
-                                console.log('FCM Token:', currentToken);
                                 sendTokenToServer(currentToken);
-                            } else {
-                                console.log('No registration token available.');
                             }
                         }).catch((err) => {
                             console.log('An error occurred while retrieving token. ', err);
                         });
-                    } else {
-                        console.log('Unable to get permission to notify.');
                     }
                 });
             }
 
             function sendTokenToServer(token) {
                 $.ajax({
-                    url: "{{ route('customer.fcm.token.store') }}", 
+                    url: "{{ route('customer.fcm.token.store') }}",
                     type: 'POST',
                     data: {
                         _token: "{{ csrf_token() }}",

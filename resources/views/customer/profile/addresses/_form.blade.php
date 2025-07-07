@@ -1,6 +1,6 @@
 @csrf
-<div class="alert alert-warning" role="alert">
-    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+<div class="alert alert-address-warning" role="alert">
+    <i class="bi bi-info-circle-fill me-2"></i>
     <strong>Penting:</strong> Pastikan **Kode Pos** diisi dengan benar untuk perhitungan ongkos kirim yang akurat.
 </div>
 
@@ -51,7 +51,11 @@
     @enderror
 </div>
 
-<div class="d-flex justify-content-end mt-3">
-    <a href="{{ route('customer.profile.alamat.index') }}" class="btn btn-secondary me-2">Batal</a>
-    <button type="submit" class="btn btn-primary">Simpan Alamat</button>
+<div class="d-flex justify-content-end mt-4">
+    <a href="{{ route('customer.profile.alamat.index') }}" class="btn btn-outline-secondary me-2">
+        <i class="bi bi-x-lg me-1"></i> Batal
+    </a>
+    <button type="submit" class="btn btn-primary px-4">
+        <i class="bi bi-check-circle-fill me-2"></i> Simpan Alamat
+    </button>
 </div>

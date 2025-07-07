@@ -41,10 +41,6 @@ class CartController extends Controller
         $user = Auth::user();
         $variant = Variant::find($request->variant_id);
 
-        if ($variant->stock < $request->quantity) {
-            return response()->json(['error' => 'Stok tidak mencukupi.'], 422);
-        }
-
         try {
             DB::beginTransaction();
             $cart = ShoppingCart::firstOrCreate(['user_id' => $user->id]);
@@ -53,6 +49,21 @@ class CartController extends Controller
                 ->where('product_id', $request->product_id)
                 ->where('variant_id', $request->variant_id)
                 ->first();
+
+            $qtyInCart = $cartItem ? $cartItem->qty : 0;
+            $requestedQty = $request->quantity;
+            $totalQtyNeeded = $qtyInCart + $requestedQty;
+
+            if ($variant->stock < $totalQtyNeeded) {
+                DB::rollBack();
+                $errorMessage = 'Stok tidak mencukupi. ';
+                if ($qtyInCart > 0) {
+                    $errorMessage .= "Sisa stok: {$variant->stock}, Anda sudah memiliki {$qtyInCart} di keranjang.";
+                } else {
+                    $errorMessage .= "Sisa stok hanya {$variant->stock}.";
+                }
+                return response()->json(['error' => $errorMessage], 422);
+            }
 
             if ($cartItem) {
                 $cartItem->increment('qty', $request->quantity);
@@ -83,11 +94,22 @@ class CartController extends Controller
 
         $request->validate(['quantity' => 'required|integer|min:1']);
 
+        $shoppingCartItem->load('variant');
+        $stock = $shoppingCartItem->variant->stock;
+
+        if ($request->quantity > $stock) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Stok tidak mencukupi. Sisa stok hanya ' . $stock,
+            ], 422);
+        }
+
         $shoppingCartItem->update(['qty' => $request->quantity]);
 
         $cart = $shoppingCartItem->shoppingCart;
         $subtotal = 0;
-        foreach ($cart->items as $item) {
+
+        foreach ($cart->fresh()->items as $item) {
             $item->load('product');
             $price = $item->product->discount_price > 0 ? $item->product->discount_price : $item->product->price;
             $subtotal += $price * $item->qty;
@@ -107,8 +129,10 @@ class CartController extends Controller
         $cart = $shoppingCartItem->shoppingCart;
         $shoppingCartItem->delete();
 
+        $cart->load('items.product');
+
         $subtotal = 0;
-        foreach ($cart->items()->get() as $item) {
+        foreach ($cart->items as $item) {
             $price = $item->product->discount_price > 0 ? $item->product->discount_price : $item->product->price;
             $subtotal += $price * $item->qty;
         }

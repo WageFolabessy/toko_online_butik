@@ -87,6 +87,10 @@ class CheckoutController extends Controller
             'delivery_method' => 'required|in:delivery,pickup',
             'address_id' => 'required_if:delivery_method,delivery|nullable|exists:addresses,id',
             'shipping_service' => 'required_if:delivery_method,delivery|string',
+        ], [
+            'delivery_method.required_if' => 'Metode Pengiriman Wajib dipilih',
+            'address_id.required_if' => 'Alamat Pengiriman Wajib dipilih',
+            'shipping_service.required_if' => 'Kurir Pengiriman Wajib dipilih',
         ]);
 
         $user = auth()->user();

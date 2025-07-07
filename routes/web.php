@@ -17,14 +17,13 @@ use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\ProductController as CustomerProductController;
 
-// == HALAMAN Pelanggan ==
 Route::name('customer.')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/koleksi', [CustomerProductController::class, 'index'])->name('products.index');
     Route::get('/produk/{product:slug}', [CustomerProductController::class, 'show'])->name('products.show');
+    Route::view('/kontak', 'customer.contact')->name('contact');
 
-    // Rute yang belum login
     Route::middleware('guest')->group(function () {
         Route::get('/masuk', [CustomerAuthController::class, 'showLoginForm'])->name('login.form');
         Route::post('/masuk', [CustomerAuthController::class, 'login'])->name('login.submit');
@@ -36,11 +35,9 @@ Route::name('customer.')->group(function () {
         Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('password.update');
     });
 
-    // Rute untuk pelanggan yang sudah login
     Route::middleware('auth')->group(function () {
         Route::post('/keluar', [CustomerAuthController::class, 'logout'])->name('logout');
 
-        // Keranjang Belanja
         Route::prefix('keranjang')->name('cart.')->group(function () {
             Route::get('/', [CartController::class, 'index'])->name('index');
             Route::post('/tambah', [CartController::class, 'store'])->name('store');
